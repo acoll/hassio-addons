@@ -1,0 +1,49 @@
+.main {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  grid-template-areas: "sidebar . . ." "sidebar . . ." "sidebar . . .";
+  padding: 0px 32px 0px 0px;
+  gap: 32px;
+
+  background-image: url("/background.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+  height: 100vh;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  color: rgba(106, 115, 119, 1);
+  padding: 24px;
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 16px;
+  background-color: #00000010;
+}
+
+.cardSection {
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto 1fr 1fr;
+}
+
+.cardSectionHeader {
+  font-size: 24px;
+  padding: 24px 16px 16px;
+  grid-column: span 2;
+  text-align: center;
+  color: white;
+}
+
+.cardCircle {
+  clip-path: circle(at 50% 50%);
+  pointer-events: none;
+  display: flex;
+  background-size: cover;
+  height: 100%;
+  flex: 1;
+}
