@@ -1,4 +1,5 @@
 {
   "name": "acoll Home Assistant add-on repo",
-  "url": "https://github.com/acoll/hassio-addons"
+  "url": "https://github.com/acoll/hassio-addons",  
+  "maintainer": "Adam <adamcoll.ac@gmail.com>"
 }
