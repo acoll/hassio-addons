@@ -1,6 +1,5 @@
 import React from "react";
 import type { HassEntity } from "home-assistant-js-websocket";
-import classnames from "classnames";
 import styles from "./Card.module.css";
 
 interface CardProps {
@@ -26,9 +25,7 @@ export function Card(props: CardProps) {
 
   return (
     <div
-      className={classnames(styles.card, {
-        [styles.cardActive]: isActive(entity),
-      })}
+      className={styles.card + " " + isActive(entity) ? styles.cardActive : ""}
       onClick={() => {
         if (props.onTap) {
           props.onTap(entity);
