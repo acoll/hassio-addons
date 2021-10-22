@@ -3,8 +3,7 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN apk add --no-cache nodejs-npm 
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache nodejs npm libc6-compat
 WORKDIR /app
 COPY package.json ./
 RUN npm install
