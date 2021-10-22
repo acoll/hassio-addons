@@ -137,7 +137,7 @@ const Greeting = () => {
   const time = new Date().getHours();
 
   return (
-    <b>
+    <b style={{ color: "rgba(255, 255, 255, 0.8)" }}>
       {(() => {
         if (time <= 5) {
           return `Good night 😴`;
@@ -185,7 +185,7 @@ const Weather = (props: WeatherProps) => {
         if (temperature <= 31) {
           return `Feels like ${apparent}° with ${precip}% chance of snow \u2744\uFE0F`;
         } else if (temperature > 31) {
-          return `Feels like ${apparent} with ${precip}% chance of rain \u2614\uFE0F`;
+          return `Feels like ${apparent}° with ${precip}% chance of rain \u2614\uFE0F`;
         }
       })()}
     </div>

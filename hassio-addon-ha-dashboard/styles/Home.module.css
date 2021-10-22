@@ -24,6 +24,19 @@
   background-color: #00000010;
 }
 
+@media only screen and (max-width: 1024px) {
+  .main {
+    padding: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr 1fr 1fr;
+    grid-template-areas: ". ." ". ." "sidebar sidebar";
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
+
 .cardSection {
   display: grid;
   grid-gap: 8px;
