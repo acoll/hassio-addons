@@ -125,7 +125,7 @@ const CurrentDate = () => {
   const dayOfWeek = format(new Date(), "iiii");
   const displayDate = format(new Date(), "LLLL do");
   return (
-    <div style={{ fontSize: "22px" }}>
+    <div style={{ fontSize: "32px" }}>
       <div>{dayOfWeek}</div>
       <div></div>
       {displayDate}
@@ -137,7 +137,7 @@ const Greeting = () => {
   const time = new Date().getHours();
 
   return (
-    <b style={{ color: "rgba(255, 255, 255, 0.8)" }}>
+    <b style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "28px" }}>
       {(() => {
         if (time <= 5) {
           return `Good night 😴`;
@@ -180,12 +180,16 @@ const Weather = (props: WeatherProps) => {
   const precip = Math.round(Number.parseFloat(states[PRECIP].state));
 
   return (
-    <div>
+    <div style={{ fontSize: "28px" }}>
       {(() => {
         if (temperature <= 31) {
-          return `Feels like ${apparent}° with ${precip}% chance of snow \u2744\uFE0F`;
+          return `Feels like ${apparent}° with ${precip}% chance of snow ${
+            precip >= 5 ? "\u2744\uFE0F" : ""
+          }`;
         } else if (temperature > 31) {
-          return `Feels like ${apparent}° with ${precip}% chance of rain \u2614\uFE0F`;
+          return `Feels like ${apparent}° with ${precip}% chance of rain ${
+            precip >= 5 ? "\u2614\uFE0F" : ""
+          }`;
         }
       })()}
     </div>
