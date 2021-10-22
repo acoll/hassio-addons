@@ -5,11 +5,9 @@ ENV LANG C.UTF-8
 
 RUN apk add --no-cache nodejs npm libc6-compat
 WORKDIR /app
-COPY package.json ./
+COPY . .
 RUN npm install
 
-COPY . .
-COPY --from=deps /app/node_modules ./node_modules
 RUN npm run build
 
 ENV NODE_ENV production
