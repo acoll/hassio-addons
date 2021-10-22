@@ -25,7 +25,9 @@ export function Card(props: CardProps) {
 
   return (
     <div
-      className={styles.card + " " + isActive(entity) ? styles.cardActive : ""}
+      className={
+        styles.card + " " + (isActive(entity) ? styles.cardActive : "")
+      }
       onClick={() => {
         if (props.onTap) {
           props.onTap(entity);
