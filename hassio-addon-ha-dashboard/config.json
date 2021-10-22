@@ -1,9 +1,9 @@
 {
-    "name": "Starter project for Node.js based Hass.io addons",
+    "name": "React HA Dashboard",
     "version": "1",
     "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
     "slug": "nodejs_starter_hassio",
-    "description": "Starter project for Node.js based Hass.io addons",
+    "description": "React HA Dashboard",
     "startup": "application",
     "boot": "auto",
     "map": [
