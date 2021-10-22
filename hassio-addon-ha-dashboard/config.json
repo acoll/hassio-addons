@@ -1,6 +1,6 @@
 {
     "name": "React HA Dashboard",
-    "version": "1",
+    "version": "2",
     "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
     "slug": "nodejs_starter_hassio",
     "description": "React HA Dashboard",
