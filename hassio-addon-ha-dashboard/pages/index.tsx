@@ -79,7 +79,7 @@ const Home: NextPage = () => {
             isActive={() => false}
             icon1={() => <ThermometerIcon />}
             state={(ent) => `${Math.round(Number.parseFloat(ent.state))}°`}
-            name={() => ""}
+            name={(ent) => relativeTimeShort(new Date(ent.last_changed))}
           />
           <Card
             entity={states["switch.aqara_plug_office_heater"]}
@@ -218,7 +218,11 @@ function GarageDoorsCard(props: GarageDoorsCardProps) {
   return (
     <Card
       entity={left}
-      name={() => ""}
+      name={(ent) =>
+        `${relativeTimeShort(
+          new Date(left.last_updated)
+        )} - ${relativeTimeShort(new Date(right.last_updated))}`
+      }
       state={() =>
         left.state === "on" && right.state === "on"
           ? "Both Open"
