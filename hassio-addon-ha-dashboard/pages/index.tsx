@@ -2,49 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React from "react";
-import type {
-  getAuthOptions,
-  HassEntities,
-  HassEntity,
-  HassServiceTarget,
-  UnsubscribeFunc,
-} from "home-assistant-js-websocket";
+import type { HassEntities, HassEntity } from "home-assistant-js-websocket";
 import { Card } from "../lib/Card";
 import { GarageIcon, HeaterIcon, ThermometerIcon } from "../lib/icons";
 import { format } from "date-fns";
 import { relativeTimeShort } from "../lib/dates";
+import { useHAState } from "../lib/ha";
 
 const Home: NextPage = () => {
-  const [states, setStates] = React.useState<HassEntities>({});
-  const callServiceRef = React.useRef<
-    (
-      domain: string,
-      service: string,
-      serviceData: object,
-      target: HassServiceTarget
-    ) => void
-  >(() => {
-    console.log("callService not ready");
-  });
-
-  const callService = callServiceRef.current;
-
-  React.useEffect(() => {
-    let unsubFn: UnsubscribeFunc = () => {};
-
-    connect((state) => setStates(state))
-      .then(({ unsubscribe, callService }) => {
-        unsubFn = unsubscribe;
-        callServiceRef.current = callService;
-      })
-      .catch((err) => console.error(err));
-
-    if (unsubFn) {
-      return () => unsubFn();
-    }
-  }, []);
-
-  console.log(states);
+  const { states, callService } = useHAState();
 
   return (
     <div>
@@ -98,6 +64,15 @@ const Home: NextPage = () => {
             }
           />
         </CardBlock>
+        <CardBlock title="Gym">
+          <Card
+            entity={states["sensor.weather_sensor_a_temperature"]}
+            isActive={() => false}
+            icon1={() => <ThermometerIcon />}
+            state={(ent) => `${Math.round(Number.parseFloat(ent.state))}°`}
+            name={(ent) => relativeTimeShort(new Date(ent.last_changed))}
+          />
+        </CardBlock>
       </main>
     </div>
   );
@@ -127,7 +102,6 @@ const CurrentDate = () => {
   return (
     <div style={{ fontSize: "32px" }}>
       <div>{dayOfWeek}</div>
-      <div></div>
       {displayDate}
     </div>
   );
@@ -240,58 +214,6 @@ function GarageDoorsCard(props: GarageDoorsCardProps) {
 }
 
 export default Home;
-
-async function connect(fn: (state: HassEntities) => void) {
-  const {
-    getAuth,
-    createConnection,
-    subscribeEntities,
-    callService,
-    ERR_HASS_HOST_REQUIRED,
-  } = await import("home-assistant-js-websocket");
-
-  const config: getAuthOptions = {
-    hassUrl: "http://homeassistant:8123/",
-    redirectUrl: window.location.href,
-    saveTokens: (tokens) => {
-      localStorage.setItem("ha-dashboard-tokens", JSON.stringify(tokens));
-    },
-    loadTokens: () => {
-      const v = localStorage.getItem("ha-dashboard-tokens");
-
-      if (!v) {
-        return undefined;
-      }
-      console.log("loadTokens", v);
-
-      return JSON.parse(v);
-    },
-  };
-
-  let auth;
-  try {
-    // Try to pick up authentication after user logs in
-    auth = await getAuth(config);
-  } catch (err) {
-    if (err === ERR_HASS_HOST_REQUIRED) {
-      auth = await getAuth(config);
-    } else {
-      throw `Unknown error: ${err}`;
-    }
-  }
-  const connection = await createConnection({ auth });
-  const unsubscribe = subscribeEntities(connection, fn);
-
-  return {
-    unsubscribe,
-    callService: (
-      domain: string,
-      service: string,
-      serviceData: object,
-      target: HassServiceTarget
-    ) => callService(connection, domain, service, serviceData, target),
-  };
-}
 
 type EntityComponent = (props: { entity: HassEntity }) => React.ReactElement;
 
