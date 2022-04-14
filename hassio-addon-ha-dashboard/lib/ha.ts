@@ -3,6 +3,7 @@ import {
   HassEntities,
   HassServiceTarget,
   UnsubscribeFunc,
+  createLongLivedTokenAuth,
 } from "home-assistant-js-websocket";
 import React from "react";
 
@@ -47,35 +48,12 @@ async function connect(fn: (state: HassEntities) => void) {
     ERR_HASS_HOST_REQUIRED,
   } = await import("home-assistant-js-websocket");
 
-  const config: getAuthOptions = {
-    hassUrl: "http://homeassistant:8123/",
-    redirectUrl: window.location.href,
-    saveTokens: (tokens) => {
-      localStorage.setItem("ha-dashboard-tokens", JSON.stringify(tokens));
-    },
-    loadTokens: () => {
-      const v = localStorage.getItem("ha-dashboard-tokens");
-
-      if (!v) {
-        return undefined;
-      }
-
-      return JSON.parse(v);
-    },
-  };
-
-  let auth;
-  try {
-    // Try to pick up authentication after user logs in
-    auth = await getAuth(config);
-  } catch (err) {
-    if (err === ERR_HASS_HOST_REQUIRED) {
-      auth = await getAuth(config);
-    } else {
-      throw `Unknown error: ${err}`;
-    }
-  }
-  const connection = await createConnection({ auth });
+  const connection = await createConnection({
+    auth: createLongLivedTokenAuth(
+      "http://homeassistant:8123",
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1MGRhZjI4NmI5MjY0MWViYTU4NmU4Y2JiMGM4NzE2NSIsImlhdCI6MTY0OTk3MDk2MywiZXhwIjoxOTY1MzMwOTYzfQ.hc4mH4XEUJHOBH5ik2gk-Brm0pSmjvz0WskcMQ5oAdY"
+    ),
+  });
   const unsubscribe = subscribeEntities(connection, fn);
 
   return {
