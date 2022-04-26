@@ -1,6 +1,6 @@
 {
   "name": "Home Assistant Minecraft Server",
-  "version": "2",
+  "version": "3",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "slug": "minecraft_server",
   "description": "Minecraft server addon for home assistant",
@@ -11,5 +11,8 @@
   "schema": {},
   "ports": {
     "25565/tcp": 25565
+  },
+  "environment": {
+    "EULA": "TRUE"
   }
 }
